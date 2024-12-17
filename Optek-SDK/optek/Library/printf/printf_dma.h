@@ -15,5 +15,6 @@ typedef struct {
 extern uart_tx_buff_t txbuff;
  
 void my_printf_dma(const char *fmt, ...);
+void uart0_dma_done_callback(void);
 
 #endif
