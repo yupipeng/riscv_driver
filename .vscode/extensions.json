@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        // Required
+        "cl.eide",
+        "ms-vscode.cpptools",
+        "marus25.cortex-debug",
+
+        // Optional
+        "esbenp.prettier-vscode",
+        "igorsbitnev.error-gutters",
+        "usernamehw.errorlens",
+        "aaron-bond.better-comments",
+        "cschlosser.doxdocgen",
+        "mhutchie.git-graph",
+        "ms-vscode.vscode-serial-monitor",
+        "ibm.output-colorizer",
+        "keroc.hex-fmt",
+        "xiaoyongdong.srecord",
+    ]
+  }

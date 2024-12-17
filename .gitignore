@@ -1,0 +1,36 @@
+# dot files
+/.vscode/launch.json
+/.settings
+/.eide/log
+/.eide.usr.ctx.json
+
+# project out
+/build
+/bin
+/obj
+/out
+/Debug
+/Release
+/tools/*
+!/tools/otk626x.cfg
+!/tools/optekflash.bin
+# openocd-flashloader
+# eide template
+*.ept
+*.eide-template
+
+
+**/NMSIS/DSP
+**/NMSIS/NN
+**/NMSIS/Library
+**/Library/cmsis-dsp
+**/Library/lvgl
+**/Library/lua
+**/Library/cherryusb
+**/Library/rtthread
+**/Library/rtt
+**/Library/fmt
+**/Library/*.zip
+**/Library/*.tar.gz
+
+.vscode/settings.json

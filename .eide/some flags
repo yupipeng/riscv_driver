@@ -1,0 +1,13 @@
+ -ffreestanding
+
+
+  --specs=nano.specs
+ --specs=nano.specs
+
+   -MMD -MP -MF -MT
+
+-lc_nano
+
+   -lc -lm -lg -lnosys -lstdc++ -lgloss
+
+    -u _printf_float

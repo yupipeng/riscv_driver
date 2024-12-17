@@ -1,0 +1,232 @@
+{
+  "name": "optek-riscv-template",
+  "type": "RISC-V",
+  "dependenceList": [],
+  "srcDirs": [
+    "Core",
+    "Optek-SDK",
+    "application",
+    "Test"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": []
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "0813910a0dec8a267f62c1138f3c51dd"
+  },
+  "targets": {
+    "Debug": {
+      "excludeList": [
+        "Optek-SDK/optek/Library/cmsis-dsp",
+        "Optek-SDK/optek/Library/rtt",
+        "Optek-SDK/optek/Test/simple_test1.c",
+        "Optek-SDK/optek/Library/lvgl/tests",
+        "Optek-SDK/optek/Library/lvgl/examples",
+        "Optek-SDK/optek/Library/lvgl/env_support",
+        "Optek-SDK/optek/Library/lvgl/docs",
+        "Optek-SDK/optek/Library/lvgl/demos",
+        "Optek-SDK/optek/Library/lvgl/scripts",
+        "Optek-SDK/optek/Library/lvgl/src/libs",
+        "Optek-SDK/optek/Library/rtthread",
+        "Optek-SDK/optek/Source/hw_cpu_clock.c",
+        "Optek-SDK/optek/Source/hw_hardware_aon.c",
+        "Optek-SDK/optek/Library/cherryusb",
+        "Optek-SDK/optek/Drivers/Sources/hw_saradc copy.c",
+        "Optek-SDK/optek/Library/lua",
+        "Optek-SDK/optek/Library/lz4",
+        "Optek-SDK/optek/Library/lc3",
+        "Optek-SDK/optek/Drivers/Sources/hw_spi_2.c",
+        "Optek-SDK/optek/Source/Message.c",
+        "Optek-SDK/optek/Source/DataConverter.c",
+        "Optek-SDK/optek/Source/DynamicProtocol",
+        "Optek-SDK/optek/Drivers/Sources/hw_sflash.c",
+        "Optek-SDK/optek/Drivers/Sources/hw_watchdog.c",
+        "Optek-SDK/optek/Source/Drivers/sensor/icm45605s_driver",
+        "application/nfc",
+        "Test/hardware",
+        "Test/memory",
+        "Test/imu_test.c",
+        "Test/lua_test.c",
+        "Test/simple_test1.c",
+        "Optek-SDK/optek/Library/fifo/fifo1.c",
+        "Optek-SDK/optek/Library/lvgl",
+        "Optek-SDK/optek/Library/printf/printf1.c",
+        "Test/uart_receive_task.c",
+        "Optek-SDK/optek/Source/CFasm_memcpy.S"
+      ],
+      "toolchain": "RISCV_GCC",
+      "compileConfig": {
+        "linkerScriptPath": "Optek-SDK\\optek\\Common\\Source\\GCC\\gcc_demosoc_flashxip.ld",
+        "options": "null"
+      },
+      "uploader": "OpenOCD",
+      "uploadConfig": {
+        "bin": "",
+        "target": "${workspaceFolder}/tools/otk626x",
+        "interface": "",
+        "baseAddr": "0x08000000"
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "Optek-SDK/optek/Library/fmt/include"
+        ],
+        "libList": [
+          "${ToolchainRoot}/lib/gcc/riscv-nuclei-elf/10.2.0/rv32imacb/ilp32"
+        ],
+        "defineList": [
+          "FMT_HEADER_ONLY"
+        ]
+      },
+      "builderOptions": {
+        "RISCV_GCC": {
+          "version": 2,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [
+            {
+              "name": "generate bin",
+              "disable": false,
+              "abortAfterFailed": false,
+              "command": "call \".\\tools\\gen2.bat\""
+            },
+            {
+              "name": "objdump",
+              "disable": false,
+              "abortAfterFailed": false,
+              "command": "${CompilerPrefix}objdump --source --all-headers --demangle --line-numbers --wide \"${OutDir}/${ProjectName}.elf\" > \"${OutDir}/${ProjectName}.lst\""
+            },
+            {
+              "name": "new postbuild task",
+              "disable": false,
+              "abortAfterFailed": false,
+              "command": "echo \"firmware: ${OutDir}/${ProjectName}.hex\""
+            }
+          ],
+          "global": {
+            "output-debug-info": "enable",
+            "arch": "rv32imac",
+            "abi": "ilp32",
+            "code-model": "medlow",
+            "misc-control": "--specs=nosys.specs -mtune=nuclei-200-series -mno-save-restore -ffunction-sections -fdata-sections -fno-common -Wall -Wextra -nostartfiles -Xlinker --gc-sections -Wl,--wrap=malloc -Wl,--wrap=realloc -Wl,--wrap=free"
+          },
+          "c/cpp-compiler": {
+            "language-c": "gnu11",
+            "language-cpp": "c++17",
+            "optimization": "level-debug",
+            "warnings": "all-warnings",
+            "one-elf-section-per-function": true,
+            "one-elf-section-per-data": true,
+            "C_FLAGS": "-Wl,-Bstatic"
+          },
+          "asm-compiler": {
+            "ASM_FLAGS": "-Wl,-Bstatic"
+          },
+          "linker": {
+            "output-format": "elf",
+            "remove-unused-input-sections": true,
+            "LD_FLAGS": "-Wl,--cref -Wl,--no-relax -nostartfiles",
+            "$toolName": "auto"
+          }
+        }
+      }
+    },
+    "debug_jtag": {
+      "excludeList": [
+        "nuclei_sdk/SoC/demosoc/optek/Source/lib/freertos/portable/GCC/portasm.S",
+        "nuclei_sdk/SoC/demosoc/optek/Source/lib/freertos"
+      ],
+      "toolchain": "RISCV_GCC",
+      "compileConfig": {
+        "linkerScriptPath": "nuclei_sdk\\SoC\\demosoc\\Board\\nuclei_fpga_eval\\Source\\GCC\\gcc_demosoc_ilm.ld",
+        "options": "null"
+      },
+      "uploader": "OpenOCD",
+      "uploadConfig": {
+        "bin": "",
+        "target": "openocd_demosoc",
+        "interface": "vsllink",
+        "baseAddr": "0x08000000"
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [],
+        "libList": [
+          "../../NucleiStudio_IDE_2022_12/Nuclei Studio IDE/NucleiStudio/toolchain/gcc/lib/gcc/riscv-nuclei-elf/10.2.0/rv32imacb/ilp32"
+        ],
+        "defineList": []
+      },
+      "builderOptions": {
+        "RISCV_GCC": {
+          "version": 2,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [
+            {
+              "name": "generate bin",
+              "disable": false,
+              "abortAfterFailed": false,
+              "command": "call \".\\generate_bin\\gen2.bat\""
+            }
+          ],
+          "global": {
+            "output-debug-info": "enable",
+            "arch": "rv32imac",
+            "abi": "ilp32",
+            "code-model": "medlow",
+            "misc-control": "--specs=nosys.specs -mtune=nuclei-200-series -mno-save-restore -ffunction-sections -fdata-sections -fno-common -ffreestanding -flto -Wall -Wextra -nostartfiles -Xlinker --gc-sections --specs=nano.specs"
+          },
+          "c/cpp-compiler": {
+            "language-c": "c11",
+            "language-cpp": "c++11",
+            "optimization": "level-2",
+            "warnings": "all-warnings",
+            "one-elf-section-per-function": true,
+            "one-elf-section-per-data": true,
+            "C_FLAGS": "-Wl,-Bstatic"
+          },
+          "asm-compiler": {
+            "ASM_FLAGS": "-Wl,-Bstatic"
+          },
+          "linker": {
+            "output-format": "elf",
+            "remove-unused-input-sections": true,
+            "LD_FLAGS": "-Wl,--cref -Wl,--no-relax -nostartfiles",
+            "$toolName": "auto",
+            "LIB_FLAGS": "-lc -lm"
+          }
+        }
+      }
+    }
+  },
+  "version": "3.5"
+}
