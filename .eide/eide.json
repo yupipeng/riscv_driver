@@ -57,7 +57,12 @@
         "Optek-SDK/optek/Library/lvgl",
         "Optek-SDK/optek/Library/printf/printf1.c",
         "Test/uart_receive_task.c",
-        "Optek-SDK/optek/Source/CFasm_memcpy.S"
+        "Optek-SDK/optek/Source/CFasm_memcpy.S",
+        "Optek-SDK/optek/Source/app/LCD",
+        "Optek-SDK/optek/Source/app/app_bt.c",
+        "Optek-SDK/optek/Source/app/app_entry.c",
+        "Optek-SDK/optek/Source/app/app_window.c",
+        "Optek-SDK/optek/Source/app/save"
       ],
       "toolchain": "RISCV_GCC",
       "compileConfig": {

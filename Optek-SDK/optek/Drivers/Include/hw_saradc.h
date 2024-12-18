@@ -37,9 +37,11 @@ extern U16 batt_val;
 #endif
 
 
+
 void hw_sadc_init(void);
 
 void hw_saradc_read(U16 * buf);
+void hw_saradc_read_dma(U16 *buf, U8 use_dma);
 void hw_saradc_oneAdCh_read(U16 * buf, U8 ad_ch);
 void hw_saradc_oneAdKey_read(U16 * buf, U8 ad_ch, U8 batt_val_det_en, U16 *batt_val);
 void hw_saradc_twoAdKey_read(U16 * buf, U8 ad_ch_first, U8 ad_ch_second, U8 batt_val_det_en, U16 *batt_val);

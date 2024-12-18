@@ -109,23 +109,16 @@ void hal_dma_uart0_send_data( enumDMA_ID dma_id ,
 }
 
 
-
-void uart0_dma_done_callback(void)
-{
-    printf("%s\n" ,__func__);
-    // DMA 完成后，执行的回调函数
-    // 比如准备下一批数据
-    // 此处假设我们可以继续从 txbuff 中发送数据
-    // 检查缓冲区 flag 是否为 1，表示数据已准备好
-    for (int i = 0; i < UART_TX_BUFF_SIZE; i++) {
-        if (txbuff.flag[i] == 1) {
-            // 数据已经准备好，继续传输
-            hal_dma_uart0_send_data( UART0_TX_DMA_ID,&txbuff,
-                                     strlen(txbuff.data));
-            
-            txbuff.flag[i] = 0;  // 传输完成后，重置标志
-        }
-    }
+void hal_saradc_read_dma_init(U16 *buf){
+    
+    hal_dma_transfer_init(  DMA_ID_8, buf, 
+                            REG_MISC_ADC_DATA, 
+                            SOURCE_DMA_ADC, 
+                            DMA_TRANS_1BYTE, 
+                            DMA_BURST_SINGLE, 
+                            1, 1, 
+                            0, NULL );
+    my_printf_dma("%d" , buf);
 }
 
 

@@ -40,15 +40,31 @@ int32_t hal_uart0_open(int32_t tx_ena, int32_t rx_ena, uint32_t baudrate)
 
 	if (tx_ena)
 	{
-		hal_gpio_mux_func_select(UART0_TX_GPIO_INDEX,MUX_SEL_FUNCTION1);
-    	hal_dma_transfer_init(UART0_TX_DMA_ID, (U32 *)(&REG_UART0_TX_DATA), NULL, SOURCE_DMA_UART_0_TX, DMA_TRANS_1BYTE, DMA_BURST_SINGLE, 1, 0, 1, uart0_dma_tx_handler);
+		hal_gpio_mux_func_select(	UART0_TX_GPIO_INDEX,	
+									MUX_SEL_FUNCTION1	);
+    	hal_dma_transfer_init(	UART0_TX_DMA_ID, 
+								(U32 *)(&REG_UART0_TX_DATA), 
+								NULL,
+								SOURCE_DMA_UART_0_TX,
+								DMA_TRANS_1BYTE, 
+								DMA_BURST_SINGLE, 
+								1, 0, 1, 
+								uart0_dma_tx_handler	);
 		DMA_GCNTR = (0x00001000 | (DMA_CHANNEL(UART0_TX_DMA_ID)));
 
 	}
 	if (rx_ena)
 	{
-		hal_gpio_mux_func_select(UART0_RX_GPIO_INDEX,MUX_SEL_FUNCTION1);
-		hal_dma_transfer_init(UART0_RX_DMA_ID, NULL, (U32 *)(&REG_UART0_RX_DATA), SOURCE_DMA_UART_0_RX, DMA_TRANS_1BYTE, DMA_BURST_SINGLE, 0, 1, 1, uart0_dma_rx_handler);
+		hal_gpio_mux_func_select(	UART0_RX_GPIO_INDEX,
+									MUX_SEL_FUNCTION1	);
+		hal_dma_transfer_init(	UART0_RX_DMA_ID, 
+								NULL, 
+								(U32 *)(&REG_UART0_RX_DATA),
+								SOURCE_DMA_UART_0_RX,
+								DMA_TRANS_1BYTE,
+								DMA_BURST_SINGLE,
+								0, 1, 1, 
+								uart0_dma_rx_handler	);
 		DMA_GCNTR = (0x00001000 | (DMA_CHANNEL(UART0_RX_DMA_ID)));
 	}
 

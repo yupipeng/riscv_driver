@@ -153,7 +153,7 @@ OTK6269
 /***********************************************
 *******        save module set          ********
 ***********************************************/
-#define SAVE_MODULE_ENABLE
+// #define SAVE_MODULE_ENABLE
 
 #ifdef SAVE_MODULE_ENABLE
 /*
@@ -239,7 +239,7 @@ OTK6269
 *******         BT MODULE SET          ********
 ***********************************************/
 #ifdef BT_ENABLE
-#define BTDM52_ENABLE
+// #define BTDM52_ENABLE
 //#define BT_MODULE_ENABLE
 #endif
 

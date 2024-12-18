@@ -21,7 +21,7 @@ struct {
 
 void KeyScan_init(void)
 {
-    printf("%s\r\n",__func__);
+    my_printf_dma("%s\r\n",__func__);
 	memset(keyScan_env.gpiokey, APP_KEY_INVALID, sizeof(keyScan_env.gpiokey));
 	memset(keyScan_env.adkey, APP_KEY_INVALID, sizeof(keyScan_env.adkey));
 	keyScan_env.key_filter.key_id = APP_KEY_INVALID;

@@ -210,6 +210,7 @@ void uart0_dma_init();
 
 void hal_dma_uart0_send_data(enumDMA_ID dma_id , U32 *buf, U32 size);
 
+void hal_saradc_read_dma_init(U16 *buf);
 
 static __inline__ void hal_dma_send_data(enumDMA_ID dma_id, U32 *buf, U32 size)
 {

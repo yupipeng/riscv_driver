@@ -118,16 +118,15 @@ char strbuf[64];
 
 uint8_t mybuff[128];
 
+U16 saradc_buf[256];
+
 #include "printf_dma.h"
 #include "hw_spi.h"
 int main(void)
-{      my_printf_dma("jell\n");
-        hw_spi_init(   ((SPI_REGISTERS *)BASE_ADDR_SPI),
-                        SPI_MODE_0 | SPI_CS0_USED );
-        spi_dma_tx_test();
-        // printf_test();
-        // UART0_DMA_TX_TEST(); 
-        // app_main();
+{      
+        // printf("are you ok?\n");
+     
+        app_main();
         return 0;
 }
     

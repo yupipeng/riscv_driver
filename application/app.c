@@ -102,49 +102,43 @@ void system_task2(void)
 
 
 void os_entry(void){
-        
-        init_uart_system();
+        my_printf_dma("%s\n" , __func__);
+        // init_uart_system();
         init_key_scan_task_system();
-        #ifndef UART0_DMA_RX
-            extern void init_uart_receive_task_system();
-            init_uart_receive_task_system();
-        #endif // !UART0_DMA_RX
-    
+        // #ifndef UART0_DMA_RX
+        //     extern void init_uart_receive_task_system();
+        //     init_uart_receive_task_system();
+        // #endif // !UART0_DMA_RX
+
         vTaskStartScheduler();  
 }
 
 #include "hw_spi.h"
-#define RTOS
+// #define RTOS
 // #define Spi_dma_tx_test
 #define UART_DMA_RX 
 #define UART_DMA_TX
+#define PRINTF_DMA
 
 #ifdef UART_DMA_TX
 #include "hal_uart.h"
 void UART0_DMA_TX_TEST(){
     hal_uart0_open(1,0,115200);
-    fifo_init(  &printf_fifo,
-                fifo_buffer,
-                FIFO_BUFFER_SIZE);
-    char lpbuff[] = "Hello ,xxxxxxxxxxxxxxxxxxxxxxxxxx!\n";
     uint8_t data[] = "";
-    printf("Welcome the riscv !\n");
-    while (1)
-    {  
-        
-        delay_ms(1000);
-       
-  
-        for(uint8_t i = 0; i < sizeof(fifo_buffer) ;i++){
-        if (fifo2_get(&printf_fifo, &data) == 0)
-        {
-            hal_dma_uart0_send_data(UART0_TX_DMA_ID,data,sizeof(data));
-        }
-        }
-        delay_ms(1000);
-        hal_dma_uart0_send_data(UART0_TX_DMA_ID,lpbuff,sizeof(lpbuff));
-        
-    }
+    // my_printf_dma("Welcome the riscv !\n");
+    //  printf("hello\n");  
+   
+            delay_ms(1000);
+            my_printf_dma("Welcome the riscv ! my_printf_dma 123123123123123123\r\n");
+            // for(uint8_t i = 0; i < sizeof(fifo_buffer) ;i++){
+            // if (fifo2_get(&printf_fifo, &data) == 0)
+            // {
+            //     hal_dma_uart0_send_data(UART0_TX_DMA_ID,data,sizeof(data));
+            // }
+            // }
+            // delay_ms(1000);
+            // hal_dma_uart0_send_data(UART0_TX_DMA_ID,lpbuff,sizeof(lpbuff));
+
 }
 #endif // UART_DMA_TX
 
@@ -173,30 +167,55 @@ printf_test(){
     
    
 }
+#define UART0_DMA_TEST
+#include "app_key.h"
+#include "hal_key_adc.h"
+#include "hal_dma.h"
+#include "hw_saradc.h"
 
 void app_main(void)
 {
 
+        printf_init(&uart0_api);
+        myprintf("happy new year !!! %d\n" , 2025);
+
+
         fifo_init(  &printf_fifo,
                     fifo_buffer,
                     FIFO_BUFFER_SIZE);
- 
+        // printf("FIFO printf!\n");
         #ifdef Spi_dma_tx_test
-            // spi_dma_open(1 , 0 ,NULL ,NULL);
+            hw_spi_init(   ((SPI_REGISTERS *)BASE_ADDR_SPI),
+                            SPI_MODE_0 | SPI_CS0_USED );
             spi_dma_tx_test();
         #endif // spi_dma_tx_test
 
-        #ifdef PRINTF_DMA
+        #ifdef UART0_DMA_TEST
+            UART0_DMA_TX_TEST(); 
+           
             my_printf_dma("Helo Word!!!\n");
-            uart0_dma_init();
-            DMA_GCNTR = (0x00001000 | (DMA_CHANNEL(UART0_TX_DMA_ID)));
-        #endif // DEBUG
+        #endif // UART0_DMA_TX_TEST
         
         #ifdef RTOS
-             os_entry();
+            os_entry();
         #endif 
-   
     
+       
+        APP_KEY ad_key_id = APP_KEY_INVALID;
+        
+        KeyScan_init();
+        printf("**************************************************\n");
+            
+        while (1)
+        {
+
+        hal_key_adc_detect(&ad_key_id,1);
+        delay_1ms(150);
+        // ad_key_id = vAdMapMainKey(0, kdata[0]);
+
+        delay_ms(100);
+        }
+
 
 }
 

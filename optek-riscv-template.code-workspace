@@ -111,7 +111,14 @@
             "cfasm_memcpy.h": "c",
             "sdk_ver.h": "c",
             "app_task.h": "c",
-            "os_config.h": "c"
+            "os_config.h": "c",
+            "app_window.h": "c",
+            "at24c02.h": "c",
+            "hw_spi1.h": "c",
+            "_ansi.h": "c",
+            "bt_common.h": "c",
+            "hw_saradc.h": "c",
+            "hal_key_adc.h": "c"
         }
     },
     "extensions": {}

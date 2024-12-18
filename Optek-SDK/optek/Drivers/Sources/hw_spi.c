@@ -399,7 +399,7 @@ void spi_dma_tx_callback(void)
 #ifdef SPI_DMA_TX_TEST
 void spi_dma_tx_test(void)
 {   
-    printf("%s\n" , __func__);
+    // printf("%s\n" , __func__);
 	int i, j;
 
 	for (j=0; j<1; j++)
@@ -437,6 +437,6 @@ void spi_dma_tx_test(void)
 
 	REG_SPI_MAX_TRANS_NUM = spi_tx_len;
 	REG_SPI_RXTX_NUM = spi_tx_len;
-	spi_dma_write_bytes(spi_tx_buf, spi_tx_len);
+	spi_dma_write_bytes(spi_tx_buf, 10);
 }
 #endif //SPI_DMA_TX_TEST

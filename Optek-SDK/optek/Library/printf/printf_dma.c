@@ -1,9 +1,13 @@
 
 #include "printf_dma.h"
 #include <stdarg.h>
+#include <stdio.h>
 #include "hal_dma.h"
+#include "fifo2.h"
 
 uart_tx_buff_t txbuff;
+
+extern void delay_ms(uint32_t ms);
 
 void my_printf_dma(const char *fmt, ...)
 {
@@ -29,7 +33,7 @@ void my_printf_dma(const char *fmt, ...)
         hal_dma_uart0_send_data(    UART0_TX_DMA_ID,
                                     (uint32_t*)&txbuff.data[i][0], 
                                     sizeof(txbuff.data[i])   );
-  
+        delay_ms(50);
         txbuff.flag[i] == 0;
     }
         
@@ -44,22 +48,33 @@ void my_printf_dma(const char *fmt, ...)
 // DMA 完成回调函数
 void uart0_dma_done_callback(void)
 {
-    // 清除当前缓冲区的标志位，表示数据已发送
-    // txbuff.flag[0] = 0;
-
-    // // 如果还有其他数据需要发送，继续进行 DMA 传输
-    // if (txbuff.flag[1] == 1) {
-    //     hal_dma_transfer_init(  UART0_TX_DMA_ID, 
-    //                             (U32 *)(&REG_UART0_TX_DATA),
-    //                             (uint32_t*)&txbuff.data[1][0], 
-    //                             SOURCE_DMA_UART_0_TX,
-    //                             DMA_TRANS_1BYTE, 
-    //                             DMA_BURST_SINGLE, 
-    //                             1, 0, 1, 
-    //                             uart0_dma_done_callback     );
-    // }
     return ;
 }
+
+#include <stdarg.h>
+#include <stdio.h>
+
+#define BUFFER_SIZE 256
+
+char buffer[BUFFER_SIZE];
+
+// int _write(int file, char *data, int len) {
+//     hal_dma_uart0_send_data(    UART0_TX_DMA_ID,
+//                                 (uint32_t*)&fifo_buffer, 
+//                                 sizeof(fifo_buffer)   );
+  
+//     return len;
+// }
+
+// int printf(const char *format, ...) {
+//     va_list args;
+//     va_start(args, format);
+//     vsnprintf(buffer, BUFFER_SIZE, format, args);
+//     va_end(args);
+//     _write(1, fifo_buffer, strlen(fifo_buffer));
+//     return 0;
+// }
+
 
 
 

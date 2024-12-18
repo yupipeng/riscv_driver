@@ -28,7 +28,7 @@ U8 hal_key_adc_detect(APP_KEY *app_keys, U8 max_simult)
 	if (max_simult <= 0)
 	{
 		DBG_Assert(FALSE);
-		printf("hal_key_adc_detect max_simult == %d\n\r", MAX_SIMULT_KEY);
+		my_printf_dma("hal_key_adc_detect max_simult == %d\n\r", MAX_SIMULT_KEY);
 		return 0;
 	}
 
@@ -58,15 +58,16 @@ U8 hal_key_adc_detect(APP_KEY *app_keys, U8 max_simult)
 	{
 		#if (AD_USED_NUMBER == 1)
 		#ifdef HW_SARADC_ENABLE
-		hw_saradc_oneAdKey_read(kdata, AD_SCAN_FIRST_CH, batt_val_det_en, pbatt_val);
+		hw_saradc_read_dma(kdata , 1);
+		// hw_saradc_oneAdKey_read(kdata, AD_SCAN_FIRST_CH, batt_val_det_en, pbatt_val);
 		#else
-		kdata[0] = 0x3ff;
+		kdata[0] = 0x3ff;    
 		#endif
 
 		if (kdata[0] < ADC_INVALID_VAL2)
 		{
 			ad_key_id = vAdMapMainKey(0, kdata[0]);
-			printf("the keyid is:%d\r\n", ad_key_id);
+			my_printf_dma("the keyid is:%d\r\n", ad_key_id);
 
 		}
 		if (APP_KEY_INVALID != ad_key_id)

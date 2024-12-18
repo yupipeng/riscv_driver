@@ -9,8 +9,6 @@
 
 
 
-
-
 #define	PRINTF_MAX_STRING  256*4
 
 #define SEND_BUFFER_SIZE 128

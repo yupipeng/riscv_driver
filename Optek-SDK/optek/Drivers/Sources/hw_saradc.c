@@ -7,8 +7,11 @@
 #include "hw_timer.h"
 #include "hw_hardware_aon.h"
 #include "hw_saradc.h"
+#include "hal_dma.h"
 
 U32 sadc_contols_status;
+
+
 
 
 #ifdef BATT_CH_AD_SCAN_ENABLE
@@ -180,6 +183,19 @@ void hw_saradc_read(U16 * buf)
     REG_MISC_ADC_CTL = val;
 
 #endif
+}
+
+
+/*saradc+dma */
+void hw_saradc_read_dma(U16 *buf,  U8 use_dma)
+{
+    if (use_dma)
+    {
+        hal_saradc_read_dma_init(buf);
+    }else{
+        hw_saradc_read(buf);
+    }
+    
 }
 
 void hw_saradc_oneAdCh_read(U16 * buf, U8 ad_ch)

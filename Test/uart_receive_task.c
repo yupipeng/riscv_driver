@@ -42,7 +42,7 @@ void uart_receive_task(void *pvParameters) {
     while (1) {
         // 获取当前 DMA 缓冲区位置
         size_t current_position = DMA_BUFFER_SIZE - 
-                                __HAL_DMA_GET_COUNTER(huart1.hdmarx);
+                                __HAL_DMA_GET_COUNTER(UART0.hdmarx);
 
         if (current_position != last_position) {
             // 数据更新，处理新接收的数据

@@ -7,6 +7,7 @@
 #include "core_feature_base.h"
 
 #include "hw_uart.h"
+#include "hal_dma.h"
 
 #define TERMINAL_SUPPORT_CRLF 1
 
@@ -24,25 +25,25 @@ extern int errno;
 /* Key stub function for uart io via printf/scanf and heap management */
 #undef putchar
 
-// int putchar(int dat)
-// {
-//     if (dat == '\n'&& TERMINAL_SUPPORT_CRLF) {
-//         uart_write(UART0, '\r', 1);
-//     }
-//     uart_write(UART0, dat, 1);
-//     return dat;
-// }
+int putchar(int dat)
+{
+    if (dat == '\n'&& TERMINAL_SUPPORT_CRLF) {
+        hw_uart_write(UART0, '\r', 1);
+    }
+    hw_uart_write(UART0, dat, 1);
+    return dat;
+}
 
-// __WEAK size_t _write(int fd, const void* ptr, size_t len)
-// {
-//     if (!isatty(fd)) {
-//         return -1;
-//     } 
+__WEAK size_t _write(int fd, const void* ptr, size_t len)
+{
+    if (!isatty(fd)) {
+        return -1;
+    } 
 
-//     // uart_write(UART0, (const char *)ptr, len);
+    hw_uart_write(UART0, (const char *)ptr, len);
 
-//     return len;
-// }
+    return len;
+}
 
 
 // __WEAK int _write(int fd, const void *buf, size_t count) {
@@ -56,31 +57,41 @@ extern int errno;
 //     return count;
 // }
 
-/**************** */
-int putchar(uint8_t *dat)
-{
-    if (*dat == '\n') {
-        fifo2_put(&printf_fifo, '\r'); // 处理换行符
-    }
-    if (fifo2_put(&printf_fifo, dat) < 0) {
-        return -1; // FIFO 满时返回错误
-    }
+// /**************** */
+// int putchar(uint8_t *dat)
+// {
+//     if (*dat == '\n') {
+//         fifo2_put(&printf_fifo, '\r'); // 处理换行符
+//     }
+//     if (fifo2_put(&printf_fifo, dat) < 0) {
+//         return -1; // FIFO 满时返回错误
+//     }
 
-    return dat;
+//     return dat;
     
-}
-// 覆写 _write 函数，将数据写入 FIFO
-__WEAK int _write(int fd, const void *buf, size_t count) {
-    const char *p = (const char *)buf;
-    
-    for (size_t i = 0; i < count; i++) {
-        if (fifo2_put(&printf_fifo, p[i]) < 0) { // 如果FIFO满了，数据丢失
+// }
+// // 覆写 _write 函数，将数据写入 FIFO
+// __WEAK int _write(int fd, const void *buf, size_t count) {
+//     const char *p = (const char *)buf;
+//     uint8_t data[256];
+
+//     for (size_t i = 0; i < count; i++) {
+//         if (fifo2_put(&printf_fifo, p[i]) < 0) { // 如果FIFO满了，数据丢失
            
-            
-            return -1; 
-        }
-        }
-    }
+//             return -1; 
+//         }
+//         }
+
+//          if (fifo2_get(&printf_fifo, &data) == 0) { // 从FIFO读取数据
+//             hw_uart_write(UART0, &data, 1); // 使用串口发送数据
+//         } else{
+//             return 0;
+//         }
+        
+         
+
+
+//     }
     
     
 // #define UART_AUTO_ECHO
